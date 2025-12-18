@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="BusinessLogic/BusinessLogic.csproj" />
+  <Project Path="DAL/DAL.csproj" />
+  <Project Path="EquipmentDatabase/EquipmentDatabase.csproj" />
+</Solution>
