@@ -20,30 +20,35 @@ namespace BusinessLogic.Services
             _dbSet = eqContext.Set<T>();
         }
 
-        public async Task AddAsync(T model)
+        public void Add(T model)
         {
             _dbSet.Add(model);
-            await _eqContext.SaveChangesAsync();
+            _eqContext.SaveChanges();
         }
 
-        public Task DeleteAsync(int id)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = _dbSet.Find(id);
+            if(entity != null)
+            {
+                _dbSet.Remove(entity);
+                _eqContext.SaveChanges();
+            }
+        }
+        public void Update(T model)
+        {
+            _dbSet.Update(model);
+            _eqContext.SaveChanges();
         }
 
-        public Task<List<T>> GetAllAsync()
+        public List<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbSet.ToList();
         }
 
-        public Task<T?> GetByIdAsync(int id)
+        public T? GetById(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(T model)
-        {
-            throw new NotImplementedException();
+            return _dbSet.Find(id);
         }
     }
 }

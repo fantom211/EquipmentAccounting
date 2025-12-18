@@ -8,10 +8,10 @@ namespace BusinessLogic.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        Task<T?> GetByIdAsync(int id);
-        Task<List<T>> GetAllAsync();
-        Task AddAsync(T model);
-        Task UpdateAsync(T model);
-        Task DeleteAsync(int id);
+        T? GetById(int id);
+        List<T> GetAll();
+        void Add(T model);
+        void Update(T model);
+        void Delete(int id);
     }
 }
