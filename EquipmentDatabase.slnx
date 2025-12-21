@@ -2,4 +2,5 @@
   <Project Path="BusinessLogic/BusinessLogic.csproj" />
   <Project Path="DAL/DAL.csproj" />
   <Project Path="EquipmentDatabase/EquipmentDatabase.csproj" />
+  <Project Path="UI/UI.csproj" Id="f68dd643-1518-4ff2-abe7-5768a4ecf2f3" />
 </Solution>

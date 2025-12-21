@@ -8,6 +8,6 @@ namespace DAL
 {
     public static class AppConfig
     {
-        public static string connectionString = "\"Server=.\\\\SQLEXPRESS;Database=EquipmentAccountingDB;Trusted_Connection=True;TrustServerCertificate=True\"";
+        public static string connectionString = "Server=.\\SQLEXPRESS;Database=EquipmentAccountingDB;Trusted_Connection=True;TrustServerCertificate=True";
     }
 }
