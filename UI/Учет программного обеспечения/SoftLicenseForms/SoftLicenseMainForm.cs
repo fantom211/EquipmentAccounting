@@ -13,73 +13,67 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UI.Справочники.CRUD_Forms;
-using UI.Справочники.EmployeesForms;
+using UI.Учет_оборудования;
 
-namespace UI.Справочники
+namespace UI.Учет_программного_обеспечения
 {
-    public partial class EmployeesMainForm : Form
+    public partial class SoftLicenseMainForm : Form
     {
         private readonly EquipmentContext _context;
         private Service service = new Service();
-        public EmployeesMainForm(EquipmentContext _context)
+        public SoftLicenseMainForm(EquipmentContext context)
         {
             InitializeComponent();
+            RefreshData();
             this._context = _context;
-
-            LoadData();
         }
 
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var addForm = new EmployeesAddForm();
+            var addForm = new SoftLicenseAddForm();
             if (addForm.ShowDialog() == DialogResult.OK)
             {
-                Employee employee = Mapper.EmployeeFromDto(addForm.Employee);
-                service.Add(employee);
+                SoftwareLicense softLicense = Mapper.SoftwareLicenseFromDto(addForm.SoftwareLicense);
+                service.Add(softLicense);
             }
             RefreshData();
         }
 
         private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var selectedItem = dataGridView1.CurrentRow.DataBoundItem as Employee;
+            var selectedItem = dataGridView1.CurrentRow.DataBoundItem as SoftwareLicense;
             if (selectedItem == null) return;
 
-            var emp = service.GetById<Employee>(selectedItem.Id);
-            if (emp == null) return;
+            var sl = service.GetById<SoftwareLicense>(selectedItem.Id);
+            if (sl == null) return;
 
-            var updateForm = new EmployeesUpdateForm(Mapper.EmployeeFromEntity(emp));
+            var updateForm = new SoftLicenseUpdateForm(Mapper.SoftwareLicenseFromEntity(sl));
             if (updateForm.ShowDialog() == DialogResult.OK)
             {
-                emp.FullName = updateForm.Employee.FullName;
-                emp.Position = updateForm.Employee.Position;
-                emp.DepartmentId = updateForm.Employee.DepartmentId;
-                service.Update(emp);
+                sl.Name = updateForm.SoftwareLicense.Name;
+                sl.Vendor = updateForm.SoftwareLicense.Vendor;
+                sl.LicenseKey = updateForm.SoftwareLicense.LicenseKey;
+                sl.ExpirationDate = updateForm.SoftwareLicense.ExpirationDate;
+
+                service.Update(sl);
                 RefreshData();
             }
         }
 
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var selectedItem = dataGridView1.CurrentRow.DataBoundItem as Employee;
+            var selectedItem = dataGridView1.CurrentRow.DataBoundItem as SoftwareLicense;
             if (selectedItem == null) return;
 
             int index = selectedItem.Id;
 
-            service.Delete<Employee>(index);
+            service.Delete<SoftwareLicense>(index);
             RefreshData();
         }
         private void RefreshData()
         {
             dataGridView1.DataSource = null;
-            dataGridView1.DataSource = service.GetAll<Employee>();
+            dataGridView1.DataSource = service.GetAll<SoftwareLicense>();
         }
-
-        private void LoadData()
-        {
-            dataGridView1.DataSource = service.GetAll<Employee>();
-        }
-
     }
 }

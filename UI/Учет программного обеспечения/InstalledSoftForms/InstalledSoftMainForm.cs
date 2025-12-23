@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace UI.Справочники
+namespace UI.Учет_программного_обеспечения.InstalledSoftForms
 {
-    public partial class EquipmentTypeForm : Form
+    public partial class InstalledSoftMainForm : Form
     {
-        public EquipmentTypeForm()
+        public InstalledSoftMainForm()
         {
             InitializeComponent();
         }

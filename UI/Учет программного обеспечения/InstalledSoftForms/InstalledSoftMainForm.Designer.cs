@@ -1,6 +1,6 @@
-﻿namespace UI.Справочники
+﻿namespace UI.Учет_программного_обеспечения.InstalledSoftForms
 {
-    partial class EquipmentTypeForm
+    partial class InstalledSoftMainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "EquipmentTypeForm";
+            this.Text = "InstalledSoftMainForm";
         }
 
         #endregion

@@ -14,72 +14,70 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Справочники.CRUD_Forms;
-using UI.Справочники.EmployeesForms;
+using UI.Справочники.Department;
 
-namespace UI.Справочники
+namespace UI.Учет_оборудования
 {
-    public partial class EmployeesMainForm : Form
+    public partial class EquipmentMainForm : Form
     {
         private readonly EquipmentContext _context;
         private Service service = new Service();
-        public EmployeesMainForm(EquipmentContext _context)
+        public EquipmentMainForm(EquipmentContext _context)
         {
             InitializeComponent();
             this._context = _context;
 
-            LoadData();
+            RefreshData();
         }
 
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var addForm = new EmployeesAddForm();
+            var addForm = new EquipmentAddForm();
             if (addForm.ShowDialog() == DialogResult.OK)
             {
-                Employee employee = Mapper.EmployeeFromDto(addForm.Employee);
-                service.Add(employee);
+                Equipment equipment = Mapper.EquipmentFromDto(addForm.Equipment);
+                service.Add(equipment);
             }
             RefreshData();
         }
 
         private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var selectedItem = dataGridView1.CurrentRow.DataBoundItem as Employee;
+            var selectedItem = dataGridView1.CurrentRow.DataBoundItem as Equipment;
             if (selectedItem == null) return;
 
-            var emp = service.GetById<Employee>(selectedItem.Id);
-            if (emp == null) return;
+            var eq = service.GetById<Equipment>(selectedItem.Id);
+            if (eq == null) return;
 
-            var updateForm = new EmployeesUpdateForm(Mapper.EmployeeFromEntity(emp));
+            var updateForm = new EquipmentUpdateForm(Mapper.EquipmentFromEntity(eq));
             if (updateForm.ShowDialog() == DialogResult.OK)
             {
-                emp.FullName = updateForm.Employee.FullName;
-                emp.Position = updateForm.Employee.Position;
-                emp.DepartmentId = updateForm.Employee.DepartmentId;
-                service.Update(emp);
+                eq.Name = updateForm.Equipment.Name;
+                eq.EmployeeId = updateForm.Equipment.EmployeeId;
+                eq.SerialNumber = updateForm.Equipment.SerialNumber;
+                eq.TypeId = updateForm.Equipment.TypeId;
+                eq.DateAdded = updateForm.Equipment.DateAdded;
+                eq.Status = updateForm.Equipment.Status;
+
+                service.Update(eq);
                 RefreshData();
             }
         }
 
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var selectedItem = dataGridView1.CurrentRow.DataBoundItem as Employee;
+            var selectedItem = dataGridView1.CurrentRow.DataBoundItem as Equipment;
             if (selectedItem == null) return;
 
             int index = selectedItem.Id;
 
-            service.Delete<Employee>(index);
+            service.Delete<Equipment>(index);
             RefreshData();
         }
         private void RefreshData()
         {
             dataGridView1.DataSource = null;
-            dataGridView1.DataSource = service.GetAll<Employee>();
+            dataGridView1.DataSource = service.GetAll<Equipment>();
         }
-
-        private void LoadData()
-        {
-            dataGridView1.DataSource = service.GetAll<Employee>();
-        }
-
     }
 }

@@ -1,4 +1,4 @@
-using UI.Справочники;
+using UI.Главная_форма;
 
 namespace UI
 {
@@ -13,7 +13,7 @@ namespace UI
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new EmployeesMainForm());
+            Application.Run(new MainForm());
         }
     }
 }

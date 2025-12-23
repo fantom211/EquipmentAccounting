@@ -14,15 +14,13 @@ namespace UI
     {
         private readonly EquipmentContext _context;
         private Service service = new Service();
-        public DepartmentMainForm()
+        public DepartmentMainForm(EquipmentContext _context)
         {
             InitializeComponent();
 
-            _context = new EquipmentContext(new DbContextOptionsBuilder<EquipmentContext>()
-                .UseSqlServer(AppConfig.connectionString)
-                .Options);
+            this._context = _context;
 
-            LoadData();
+            RefreshData();
         }
 
         private void ‰Ó·‡‚ËÚ¸ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -52,11 +50,6 @@ namespace UI
                 service.Update(dept);
                 RefreshData();
             }
-        }
-
-        private void LoadData()
-        {
-            dataGridView1.DataSource = service.GetAll<Department>();
         }
 
         private void Û‰‡ÎËÚ¸ToolStripMenuItem_Click(object sender, EventArgs e)

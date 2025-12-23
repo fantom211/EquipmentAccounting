@@ -8,7 +8,6 @@ namespace BusinessLogic.DTOs
 {
     public class EquipmentDto
     {
-        public int Id { get; set; }
         public string Name { get; set; } = null!;
         public int TypeId { get; set; }
         public string SerialNumber { get; set; } = null!;

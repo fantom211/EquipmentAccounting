@@ -1,6 +1,6 @@
-﻿namespace UI.Справочники
+﻿namespace UI.Учет_оборудования.EquipmentHistoryForms
 {
-    partial class EmployeesMainForm
+    partial class EquipmentHistoryMainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,34 +28,46 @@
         /// </summary>
         private void InitializeComponent()
         {
-            miniToolStrip = new ToolStrip();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            toolStrip1 = new ToolStrip();
             toolStripLabel1 = new ToolStripLabel();
-            toolStripLabel2 = new ToolStripLabel();
+            StatusToolStripLabel = new ToolStripLabel();
             dataGridView1 = new DataGridView();
             menuStrip1 = new MenuStrip();
             добавитьToolStripMenuItem = new ToolStripMenuItem();
             изменитьToolStripMenuItem = new ToolStripMenuItem();
             удалитьToolStripMenuItem = new ToolStripMenuItem();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            toolStrip1 = new ToolStrip();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            menuStrip1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // miniToolStrip
+            // tableLayoutPanel1
             // 
-            miniToolStrip.AccessibleName = "Выбор нового элемента";
-            miniToolStrip.AccessibleRole = AccessibleRole.ButtonDropDown;
-            miniToolStrip.AutoSize = false;
-            miniToolStrip.CanOverflow = false;
-            miniToolStrip.Dock = DockStyle.None;
-            miniToolStrip.GripStyle = ToolStripGripStyle.Hidden;
-            miniToolStrip.Location = new Point(0, 0);
-            miniToolStrip.Name = "miniToolStrip";
-            miniToolStrip.Size = new Size(424, 25);
-            miniToolStrip.TabIndex = 3;
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(toolStrip1, 0, 2);
+            tableLayoutPanel1.Controls.Add(dataGridView1, 0, 1);
+            tableLayoutPanel1.Controls.Add(menuStrip1, 0, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 3;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel1.Size = new Size(800, 450);
+            tableLayoutPanel1.TabIndex = 2;
+            // 
+            // toolStrip1
+            // 
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, StatusToolStripLabel });
+            toolStrip1.Location = new Point(0, 425);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Size = new Size(800, 25);
+            toolStrip1.TabIndex = 2;
+            toolStrip1.Text = "toolStrip1";
             // 
             // toolStripLabel1
             // 
@@ -63,10 +75,10 @@
             toolStripLabel1.Size = new Size(49, 22);
             toolStripLabel1.Text = "Статус: ";
             // 
-            // toolStripLabel2
+            // StatusToolStripLabel
             // 
-            toolStripLabel2.Name = "toolStripLabel2";
-            toolStripLabel2.Size = new Size(0, 22);
+            StatusToolStripLabel.Name = "StatusToolStripLabel";
+            StatusToolStripLabel.Size = new Size(0, 22);
             // 
             // dataGridView1
             // 
@@ -74,7 +86,7 @@
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(3, 28);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(620, 310);
+            dataGridView1.Size = new Size(794, 394);
             dataGridView1.TabIndex = 0;
             // 
             // menuStrip1
@@ -82,8 +94,8 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { добавитьToolStripMenuItem, изменитьToolStripMenuItem, удалитьToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(626, 24);
-            menuStrip1.TabIndex = 2;
+            menuStrip1.Size = new Size(800, 24);
+            menuStrip1.TabIndex = 1;
             menuStrip1.Text = "menuStrip1";
             // 
             // добавитьToolStripMenuItem
@@ -107,60 +119,34 @@
             удалитьToolStripMenuItem.Text = "Удалить";
             удалитьToolStripMenuItem.Click += удалитьToolStripMenuItem_Click;
             // 
-            // tableLayoutPanel1
-            // 
-            tableLayoutPanel1.ColumnCount = 1;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Controls.Add(menuStrip1, 0, 0);
-            tableLayoutPanel1.Controls.Add(dataGridView1, 0, 1);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
-            tableLayoutPanel1.Size = new Size(626, 366);
-            tableLayoutPanel1.TabIndex = 0;
-            // 
-            // toolStrip1
-            // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, toolStripLabel2 });
-            toolStrip1.Location = new Point(0, 341);
-            toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(424, 25);
-            toolStrip1.TabIndex = 3;
-            toolStrip1.Text = "toolStrip1";
-            // 
-            // EmployeesMainForm
+            // EquipmentHistoryMainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(626, 366);
+            ClientSize = new Size(800, 450);
             Controls.Add(tableLayoutPanel1);
-            Name = "EmployeesMainForm";
-            Text = "EmployeesForm";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
+            Name = "EquipmentHistoryMainForm";
+            Text = "EquipmentHistoryMainForm";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private ToolStrip miniToolStrip;
+        private TableLayoutPanel tableLayoutPanel1;
+        private ToolStrip toolStrip1;
         private ToolStripLabel toolStripLabel1;
-        private ToolStripLabel toolStripLabel2;
+        private ToolStripLabel StatusToolStripLabel;
         private DataGridView dataGridView1;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem добавитьToolStripMenuItem;
         private ToolStripMenuItem изменитьToolStripMenuItem;
         private ToolStripMenuItem удалитьToolStripMenuItem;
-        private TableLayoutPanel tableLayoutPanel1;
-        private ToolStrip toolStrip1;
     }
 }
