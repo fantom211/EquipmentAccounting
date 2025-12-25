@@ -69,6 +69,7 @@
             Controls.Add(button1);
             Name = "EquipmentTypeAddForm";
             Text = "EquipmentTypeAddForm";
+            FormClosing += EquipmentTypeAddForm_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

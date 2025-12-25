@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.DTOs;
+using EquipmentDatabase.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,6 +36,29 @@ namespace UI.Учет_оборудования.EquipmentHistoryForms
         public EquipmentHistoryAddForm()
         {
             InitializeComponent();
+        }
+
+        public EquipmentHistoryAddForm(EquipmentHistoryDto dto)
+        {
+            InitializeComponent();
+            idEquipmentTextBox1.Text = dto.EquipmentId.ToString();
+            dateTimePicker1.Value = dto.DateMoved.ToDateTime(TimeOnly.MinValue);
+            oldEmpTextBox3.Text = dto.OldEmployeeId.ToString();
+            newEmpTextBox2.Text = dto.NewEmployeeId.ToString();
+        }
+
+        private void EquipmentHistoryAddForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EquipmentHistoryAddForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DialogResult == DialogResult.OK && EquipmentHistory == null)
+            {
+                MessageBox.Show("Заполните все поля.");
+                e.Cancel = true;
+            }
         }
     }
 }

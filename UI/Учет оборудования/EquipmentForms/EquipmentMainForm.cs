@@ -14,7 +14,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Справочники.CRUD_Forms;
-using UI.Справочники.Department;
 
 namespace UI.Учет_оборудования
 {
@@ -35,10 +34,23 @@ namespace UI.Учет_оборудования
             var addForm = new EquipmentAddForm();
             if (addForm.ShowDialog() == DialogResult.OK)
             {
-                Equipment equipment = Mapper.EquipmentFromDto(addForm.Equipment);
-                service.Add(equipment);
+                try
+                {
+                    Equipment eq = Mapper.EquipmentFromDto(addForm.Equipment);
+                    if (!service.TryValidate(eq))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+
+                    service.Add(eq);
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка валидации.");
+                }
             }
-            RefreshData();
         }
 
         private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -49,19 +61,33 @@ namespace UI.Учет_оборудования
             var eq = service.GetById<Equipment>(selectedItem.Id);
             if (eq == null) return;
 
-            var updateForm = new EquipmentUpdateForm(Mapper.EquipmentFromEntity(eq));
+            var updateForm = new EquipmentAddForm(Mapper.EquipmentFromEntity(eq));
             if (updateForm.ShowDialog() == DialogResult.OK)
             {
-                eq.Name = updateForm.Equipment.Name;
-                eq.EmployeeId = updateForm.Equipment.EmployeeId;
-                eq.SerialNumber = updateForm.Equipment.SerialNumber;
-                eq.TypeId = updateForm.Equipment.TypeId;
-                eq.DateAdded = updateForm.Equipment.DateAdded;
-                eq.Status = updateForm.Equipment.Status;
+                try
+                {
+                    eq.Name = updateForm.Equipment.Name;
+                    eq.EmployeeId = updateForm.Equipment.EmployeeId;
+                    eq.SerialNumber = updateForm.Equipment.SerialNumber;
+                    eq.TypeId = updateForm.Equipment.TypeId;
+                    eq.DateAdded = updateForm.Equipment.DateAdded;
+                    eq.Status = updateForm.Equipment.Status;
 
-                service.Update(eq);
-                RefreshData();
+                    if (!service.TryValidate(eq))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+
+                    service.Update(eq);
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка валидации.");
+                }
             }
+        
         }
 
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)

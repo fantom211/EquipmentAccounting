@@ -9,6 +9,7 @@ namespace EquipmentDatabase.Models;
 [PrimaryKey("EquipmentId", "LicenseId")]
 public partial class InstalledSoftware
 {
+    public int Id { get; set; }
     [Key]
     [Column("EquipmentID")]
     public int EquipmentId { get; set; }

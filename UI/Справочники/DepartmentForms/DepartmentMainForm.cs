@@ -6,7 +6,6 @@ using DAL.Context;
 using EquipmentDatabase.Models;
 using Microsoft.EntityFrameworkCore;
 using UI.Справочники.CRUD_Forms;
-using UI.Справочники.Department;
 
 namespace UI
 {
@@ -28,10 +27,20 @@ namespace UI
             var addForm = new DepartmentAddForm();
             if (addForm.ShowDialog() == DialogResult.OK)
             {
-                Department department = Mapper.DepartmentFromDto(addForm.Department);
-                service.Add(department);
-            }
-            RefreshData();
+                try
+                {
+                    Department department = Mapper.DepartmentFromDto(addForm.Department);
+                    if (!service.TryValidate(department))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+                        
+                    service.Add(department);
+                    RefreshData();
+                }
+                catch (Exception ex) { MessageBox.Show("Ошибка валидации"); }
+            }  
         }
 
         private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -42,13 +51,22 @@ namespace UI
             var dept = service.GetById<Department>(selectedItem.Id);
             if (dept == null) return;
 
-            var updateForm = new DepartmentUpdateForm(Mapper.DepartmentFromEntity(dept));
+            var updateForm = new DepartmentAddForm(Mapper.DepartmentFromEntity(dept));
             if (updateForm.ShowDialog() == DialogResult.OK)
             {
-                dept.Name = updateForm.Department.Name;
-                dept.ManagerId = updateForm.Department.ManagerId;
-                service.Update(dept);
-                RefreshData();
+                try
+                {
+                    dept.Name = updateForm.Department.Name;
+                    dept.ManagerId = updateForm.Department.ManagerId;
+                    if (!service.TryValidate(dept))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+                    service.Update(dept);
+                    RefreshData();
+                }
+                catch (Exception ex) { MessageBox.Show("Ошибка валидации."); }
             }
         }
 

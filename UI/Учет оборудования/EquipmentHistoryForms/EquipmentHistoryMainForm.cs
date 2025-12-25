@@ -31,10 +31,23 @@ namespace UI.Учет_оборудования.EquipmentHistoryForms
             var addForm = new EquipmentHistoryAddForm();
             if (addForm.ShowDialog() == DialogResult.OK)
             {
-                EquipmentHistory equipment = Mapper.EquipmentHistoryFromDto(addForm.EquipmentHistory);
-                service.Add(equipment);
+                try
+                {
+                    EquipmentHistory equipment = Mapper.EquipmentHistoryFromDto(addForm.EquipmentHistory);
+                    if (!service.TryValidate(equipment))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+
+                    service.Add(equipment);
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка валидации.");
+                }
             }
-            RefreshData();
         }
 
         private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -45,16 +58,29 @@ namespace UI.Учет_оборудования.EquipmentHistoryForms
             var eq = service.GetById<EquipmentHistory>(selectedItem.Id);
             if (eq == null) return;
 
-            var updateForm = new EquipmentHistoryUpdateForm(Mapper.EquipmentHistoryFromEntity(eq));
+            var updateForm = new EquipmentHistoryAddForm(Mapper.EquipmentHistoryFromEntity(eq));
             if (updateForm.ShowDialog() == DialogResult.OK)
             {
-                eq.EquipmentId = updateForm.EquipmentHistory.EquipmentId;
-                eq.DateMoved = updateForm.EquipmentHistory.DateMoved;
-                eq.OldEmployeeId = updateForm.EquipmentHistory.OldEmployeeId;
-                eq.NewEmployeeId = updateForm.EquipmentHistory.NewEmployeeId;
+                try
+                {
+                    eq.EquipmentId = updateForm.EquipmentHistory.EquipmentId;
+                    eq.DateMoved = updateForm.EquipmentHistory.DateMoved;
+                    eq.OldEmployeeId = updateForm.EquipmentHistory.OldEmployeeId;
+                    eq.NewEmployeeId = updateForm.EquipmentHistory.NewEmployeeId;
 
-                service.Update(eq);
-                RefreshData();
+                    if (!service.TryValidate(eq))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+
+                    service.Update(eq);
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка валидации.");
+                }
             }
         }
 

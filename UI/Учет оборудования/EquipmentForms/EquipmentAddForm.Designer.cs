@@ -171,6 +171,7 @@
             Controls.Add(label1);
             Name = "EquipmentAddForm";
             Text = "EquipmentAddForm";
+            FormClosing += EquipmentAddForm_FormClosing;
             Load += EquipmentAddForm_Load;
             ResumeLayout(false);
             PerformLayout();

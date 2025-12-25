@@ -83,13 +83,25 @@ namespace DAL.Context
 
             modelBuilder.Entity<InstalledSoftware>(entity =>
             {
-                entity.HasKey(e => new { e.EquipmentId, e.LicenseId }).HasName("PK__Installe__036A2593C60DF044");
+                entity.HasKey(e => e.Id)
+          .HasName("PK_InstalledSoftwares_Id");
 
-                entity.Property(e => e.InstallDate).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.InstallDate)
+                      .HasDefaultValueSql("(getdate())");
 
-                entity.HasOne(d => d.Equipment).WithMany(p => p.InstalledSoftwares).HasConstraintName("FK_Installed_Equipments");
+                entity.HasIndex(e => new { e.EquipmentId, e.LicenseId })
+                      .IsUnique()
+                      .HasDatabaseName("UQ_InstalledSoftwares_Equip_License");
 
-                entity.HasOne(d => d.License).WithMany(p => p.InstalledSoftwares).HasConstraintName("FK_Installed_Licenses");
+                entity.HasOne(d => d.Equipment)
+                      .WithMany(p => p.InstalledSoftwares)
+                      .HasForeignKey(d => d.EquipmentId)
+                      .HasConstraintName("FK_Installed_Equipments");
+
+                entity.HasOne(d => d.License)
+                      .WithMany(p => p.InstalledSoftwares)
+                      .HasForeignKey(d => d.LicenseId)
+                      .HasConstraintName("FK_Installed_Licenses");
             });
 
             modelBuilder.Entity<SoftwareLicense>(entity =>

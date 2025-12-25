@@ -129,6 +129,7 @@
             Controls.Add(label1);
             Name = "SoftLicenseAddForm";
             Text = "SoftLicenseAddForm";
+            FormClosing += SoftLicenseAddForm_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.DTOs;
+using EquipmentDatabase.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,23 +18,39 @@ namespace UI.Справочники.CRUD_Forms
         {
             get
             {
-                DepartmentDto dto = null;
+                if (string.IsNullOrWhiteSpace(NameTextBox.Text))
+                    return null;
+
+                if (!int.TryParse(ManagerTextBox.Text, out int managerId))
+                    return null;
+
                 try
                 {
-                    dto = new DepartmentDto
+                    return new DepartmentDto
                     {
-                        Name = NameTextBox.Text,
-                        ManagerId = Convert.ToInt32(ManagerTextBox.Text),
+                        Name = NameTextBox.Text.Trim(),
+                        ManagerId = managerId
                     };
                 }
-                catch (Exception ex) { MessageBox.Show(ex.Message); }
-                return dto;
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при создании отдела: " + ex.Message);
+                    return null;
+                }
+                
             }
         }
 
         public DepartmentAddForm()
         {
             InitializeComponent();
+        }
+
+        public DepartmentAddForm(DepartmentDto dto)
+        {
+            InitializeComponent();
+            NameTextBox.Text = dto.Name;
+            ManagerTextBox.Text = Convert.ToString(dto.ManagerId);
         }
 
         private void DepartmentAddForm_Load(object sender, EventArgs e)
@@ -44,6 +61,18 @@ namespace UI.Справочники.CRUD_Forms
         private void AddButton_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void DepartmentAddForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DialogResult == DialogResult.OK)
+            {
+                if(Department == null)
+                {
+                    MessageBox.Show("Заполните все поля.");
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }

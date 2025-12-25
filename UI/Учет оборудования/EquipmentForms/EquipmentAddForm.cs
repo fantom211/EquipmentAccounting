@@ -17,31 +17,80 @@ namespace UI.Учет_оборудования
         {
             get
             {
-                EquipmentDto dto = null;
+                if (string.IsNullOrWhiteSpace(nameTextBox.Text))
+                {
+                    MessageBox.Show("Введите название оборудования.");
+                    return null;
+                }
+
+                if (!int.TryParse(idTypeTextBox.Text, out int typeId))
+                {
+                    MessageBox.Show("Введите корректный ID типа оборудования.");
+                    return null;
+                }
+
+                if (!int.TryParse(idEmployeeTextBox3.Text, out int employeeId))
+                {
+                    MessageBox.Show("Введите корректный ID сотрудника.");
+                    return null;
+                }
+
+                if (string.IsNullOrWhiteSpace(serialNumberTextBox4.Text))
+                {
+                    MessageBox.Show("Введите серийный номер оборудования.");
+                    return null;
+                }
+
+                if (statusComboBox1.SelectedItem == null)
+                {
+                    MessageBox.Show("Выберите статус оборудования.");
+                    return null;
+                }
+
                 try
                 {
-                    dto = new EquipmentDto
+                    return new EquipmentDto
                     {
-                        Name = nameTextBox.Text,
-                        TypeId = Convert.ToInt32(idTypeTextBox.Text),
-                        SerialNumber = serialNumberTextBox4.Text.ToString(),
-                        EmployeeId = Convert.ToInt32(idEmployeeTextBox3.Text),
+                        Name = nameTextBox.Text.Trim(),
+                        TypeId = typeId,
+                        SerialNumber = serialNumberTextBox4.Text.Trim(),
+                        EmployeeId = employeeId,
                         DateAdded = DateOnly.FromDateTime(dateTimePicker1.Value),
                         Status = statusComboBox1.SelectedItem.ToString()
                     };
                 }
-                catch (Exception ex) { MessageBox.Show(ex.Message); }
-                return dto;
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при создании оборудования: " + ex.Message);
+                    return null;
+                }
             }
         }
         public EquipmentAddForm()
         {
             InitializeComponent();
         }
-
+        public EquipmentAddForm(EquipmentDto dto)
+        {
+            InitializeComponent();
+            nameTextBox.Text = dto.Name;
+            idTypeTextBox.Text = dto.TypeId.ToString();
+            serialNumberTextBox4.Text = dto.SerialNumber;
+            idEmployeeTextBox3.Text = dto.EmployeeId.ToString();
+            dateTimePicker1.Value = dto.DateAdded.ToDateTime(TimeOnly.MinValue);
+            statusComboBox1.SelectedText = dto.Status;
+        }
         private void EquipmentAddForm_Load(object sender, EventArgs e)
         {
 
+        }
+        private void EquipmentAddForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DialogResult == DialogResult.OK && Equipment == null)
+            {
+                MessageBox.Show("Заполните все поля.");
+                e.Cancel = true;
+            }
         }
     }
 }

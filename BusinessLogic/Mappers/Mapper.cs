@@ -134,5 +134,25 @@ namespace BusinessLogic.Mappers
                 NewEmployeeId = entity.NewEmployeeId
             };
         }
+
+        public static InstalledSoftware InstalledSoftwareFromDto(InstalledSoftwareDto dto)
+        {
+            return new InstalledSoftware
+            {
+                EquipmentId = dto.EquipmentId,
+                LicenseId = dto.LicenseId,
+                InstallDate = dto.InstallDate
+            };
+        }
+
+        public static InstalledSoftwareDto InstalledSoftwareFromEntity(InstalledSoftware entity)
+        {
+            return new InstalledSoftwareDto
+            {
+                EquipmentId = entity.EquipmentId,
+                LicenseId = entity.LicenseId,
+                InstallDate = entity.InstallDate
+            };
+        }
     }
 }

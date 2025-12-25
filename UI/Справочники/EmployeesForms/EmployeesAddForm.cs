@@ -18,24 +18,61 @@ namespace UI.Справочники.EmployeesForms
         {
             get
             {
-                EmployeeDto dto = null;
+                if (string.IsNullOrWhiteSpace(fullNameTextBox.Text))
+                {
+                    MessageBox.Show("Введите ФИО сотрудника.");
+                    return null;
+                }
+
+                if (string.IsNullOrWhiteSpace(positionTextBox.Text))
+                {
+                    MessageBox.Show("Введите должность сотрудника.");
+                    return null;
+                }
+
+                if (!int.TryParse(idDepatmentTextBox.Text, out int departmentId))
+                {
+                    MessageBox.Show("Введите корректный ID отдела.");
+                    return null;
+                }
+
                 try
                 {
-                    dto = new EmployeeDto
+                    return new EmployeeDto
                     {
-                        FullName = fullNameTextBox.Text,
-                        Position = positionTextBox.Text,
-                        DepartmentId = Convert.ToInt32(idDepatmentTextBox.Text)
+                        FullName = fullNameTextBox.Text.Trim(),
+                        Position = positionTextBox.Text.Trim(),
+                        DepartmentId = departmentId
                     };
                 }
-                catch (Exception ex) { MessageBox.Show(ex.Message); }
-                return dto;
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при создании сотрудника: " + ex.Message);
+                    return null;
+                }
             }
         }
 
         public EmployeesAddForm()
         {
             InitializeComponent();
+        }
+
+        public EmployeesAddForm(EmployeeDto employee)
+        {
+            InitializeComponent();
+            fullNameTextBox.Text = employee.FullName;
+            positionTextBox.Text = employee.Position;
+            idDepatmentTextBox.Text = Convert.ToString(employee.DepartmentId);
+        }
+
+        private void EmployeesAddForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DialogResult == DialogResult.OK && Employee == null)
+            {
+                MessageBox.Show("Заполните все поля.");
+                e.Cancel = true;
+            }
         }
     }
 }

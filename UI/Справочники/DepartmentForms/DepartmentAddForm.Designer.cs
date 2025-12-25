@@ -90,6 +90,7 @@
             Controls.Add(NameTextBox);
             Name = "DepartmentAddForm";
             Text = "DepartmentAddForm";
+            FormClosing += DepartmentAddForm_FormClosing;
             Load += DepartmentAddForm_Load;
             ResumeLayout(false);
             PerformLayout();

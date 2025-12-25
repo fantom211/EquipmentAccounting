@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Mappers;
+﻿using BusinessLogic.DTOs;
+using BusinessLogic.Mappers;
 using BusinessLogic.Services;
 using DAL;
 using DAL.Context;
@@ -25,7 +26,7 @@ namespace UI.Учет_программного_обеспечения
         {
             InitializeComponent();
             RefreshData();
-            this._context = _context;
+            this._context = context;
         }
 
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -33,10 +34,23 @@ namespace UI.Учет_программного_обеспечения
             var addForm = new SoftLicenseAddForm();
             if (addForm.ShowDialog() == DialogResult.OK)
             {
-                SoftwareLicense softLicense = Mapper.SoftwareLicenseFromDto(addForm.SoftwareLicense);
-                service.Add(softLicense);
+                try
+                {
+                    SoftwareLicense softLicense = Mapper.SoftwareLicenseFromDto(addForm.SoftwareLicense);
+                    if (!service.TryValidate(softLicense))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+
+                    service.Add(softLicense);
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка валидации.");
+                }
             }
-            RefreshData();
         }
 
         private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -47,16 +61,29 @@ namespace UI.Учет_программного_обеспечения
             var sl = service.GetById<SoftwareLicense>(selectedItem.Id);
             if (sl == null) return;
 
-            var updateForm = new SoftLicenseUpdateForm(Mapper.SoftwareLicenseFromEntity(sl));
+            var updateForm = new SoftLicenseAddForm(Mapper.SoftwareLicenseFromEntity(sl));
             if (updateForm.ShowDialog() == DialogResult.OK)
             {
-                sl.Name = updateForm.SoftwareLicense.Name;
-                sl.Vendor = updateForm.SoftwareLicense.Vendor;
-                sl.LicenseKey = updateForm.SoftwareLicense.LicenseKey;
-                sl.ExpirationDate = updateForm.SoftwareLicense.ExpirationDate;
+                try
+                {
+                    sl.Name = updateForm.SoftwareLicense.Name;
+                    sl.Vendor = updateForm.SoftwareLicense.Vendor;
+                    sl.LicenseKey = updateForm.SoftwareLicense.LicenseKey;
+                    sl.ExpirationDate = updateForm.SoftwareLicense.ExpirationDate;
 
-                service.Update(sl);
-                RefreshData();
+                    if (!service.TryValidate(sl))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+
+                    service.Update(sl);
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка валидации.");
+                }
             }
         }
 

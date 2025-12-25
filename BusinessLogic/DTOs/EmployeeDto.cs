@@ -1,4 +1,5 @@
-﻿using EquipmentDatabase.Models;
+﻿using BusinessLogic.Interfaces;
+using EquipmentDatabase.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -38,6 +38,7 @@
             TreeNode treeNode8 = new TreeNode("Лицензии ПО");
             TreeNode treeNode9 = new TreeNode("Установленное ПО");
             TreeNode treeNode10 = new TreeNode("Учет программного обеспечения", new TreeNode[] { treeNode8, treeNode9 });
+            TreeNode treeNode11 = new TreeNode("Отчеты");
             tableLayoutPanel1 = new TableLayoutPanel();
             menuStrip1 = new MenuStrip();
             покдлючитьToolStripMenuItem = new ToolStripMenuItem();
@@ -118,7 +119,9 @@
             treeNode9.Text = "Установленное ПО";
             treeNode10.Name = "Учет программного обеспечения";
             treeNode10.Text = "Учет программного обеспечения";
-            treeView1.Nodes.AddRange(new TreeNode[] { treeNode4, treeNode7, treeNode10 });
+            treeNode11.Name = "Узел0";
+            treeNode11.Text = "Отчеты";
+            treeView1.Nodes.AddRange(new TreeNode[] { treeNode4, treeNode7, treeNode10, treeNode11 });
             treeView1.Size = new Size(242, 394);
             treeView1.TabIndex = 4;
             treeView1.AfterSelect += treeView1_AfterSelect;

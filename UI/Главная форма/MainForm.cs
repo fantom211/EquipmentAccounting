@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UI.Отчеты;
 using UI.Справочники;
 using UI.Учет_оборудования;
 using UI.Учет_оборудования.EquipmentHistoryForms;
@@ -57,19 +58,22 @@ namespace UI.Главная_форма
                     formToOpen = new EquipmentHistoryMainForm(_context);
                     break;
                 case "Лицензии ПО":
-                    formToOpen = new InstalledSoftMainForm();
+                    formToOpen = new SoftLicenseMainForm(_context);
                     break;
                 case "Установленное ПО":
-                    formToOpen = new SoftLicenseMainForm(_context);
+                    formToOpen = new InstalledSoftMainForm(_context);
+                    break;
+                case "Отчеты":
+                    formToOpen = new ReportForm();
                     break;
             }
             if (formToOpen != null)
             {
                 currentForm = formToOpen;
-                formToOpen.TopLevel = false; // Чтобы форма была дочерней внутри MainForm
+                formToOpen.TopLevel = false;
                 formToOpen.FormBorderStyle = FormBorderStyle.None;
                 formToOpen.Dock = DockStyle.Fill;
-                this.panelMain.Controls.Clear(); // panelMain — панель для отображения форм
+                this.panelMain.Controls.Clear();
                 this.panelMain.Controls.Add(formToOpen);
                 formToOpen.Show();
             }

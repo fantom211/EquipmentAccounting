@@ -109,6 +109,7 @@
             Controls.Add(label1);
             Name = "EmployeesAddForm";
             Text = "EmployeesAddForm";
+            FormClosing += EmployeesAddForm_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

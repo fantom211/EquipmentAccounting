@@ -14,7 +14,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Справочники.CRUD_Forms;
-using UI.Справочники.Department;
 using UI.Справочники.EquipmentTypeForms;
 
 namespace UI.Справочники
@@ -36,10 +35,23 @@ namespace UI.Справочники
             var addForm = new EquipmentTypeAddForm();
             if (addForm.ShowDialog() == DialogResult.OK)
             {
-                EquipmentType equipmentType = Mapper.EquipmentTypeFromDto(addForm.EquipmentType);
-                service.Add(equipmentType);
+                try
+                {
+                    EquipmentType eqType = Mapper.EquipmentTypeFromDto(addForm.EquipmentType);
+                    if (!service.TryValidate(eqType))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+
+                    service.Add(eqType);
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка валидации.");
+                }
             }
-            RefreshData();
         }
 
         private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -50,12 +62,26 @@ namespace UI.Справочники
             var eqType = service.GetById<EquipmentType>(selectedItem.Id);
             if (eqType == null) return;
 
-            var updateForm = new EquipmentTypeUpdateForm(Mapper.EquipmentTypeFromEntity(eqType));
+            var updateForm = new EquipmentTypeAddForm(Mapper.EquipmentTypeFromEntity(eqType));
             if (updateForm.ShowDialog() == DialogResult.OK)
             {
-                eqType.Name = updateForm.EquipmentType.Name;
-                service.Update(eqType);
-                RefreshData();
+                try
+                {
+                    eqType.Name = updateForm.EquipmentType.Name;
+
+                    if (!service.TryValidate(eqType))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+
+                    service.Update(eqType);
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка валидации.");
+                }
             }
         }
 

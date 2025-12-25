@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="BusinessLogic/BusinessLogic.csproj" />
   <Project Path="DAL/DAL.csproj" />
+  <Project Path="ServicesTests/ServicesTests.csproj" Id="779c0e23-4da0-4280-935a-1ae00b911b9a" />
   <Project Path="UI/UI.csproj" Id="f68dd643-1518-4ff2-abe7-5768a4ecf2f3" />
 </Solution>

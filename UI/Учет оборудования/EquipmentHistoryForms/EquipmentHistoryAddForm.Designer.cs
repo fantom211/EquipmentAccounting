@@ -129,6 +129,8 @@
             Controls.Add(label1);
             Name = "EquipmentHistoryAddForm";
             Text = "EquipmentHistoryAddForm";
+            FormClosing += EquipmentHistoryAddForm_FormClosing;
+            Load += EquipmentHistoryAddForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

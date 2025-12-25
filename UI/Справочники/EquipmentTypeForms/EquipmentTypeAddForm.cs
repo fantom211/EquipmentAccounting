@@ -17,23 +17,45 @@ namespace UI.Справочники.EquipmentTypeForms
         {
             get
             {
-                EquipmentTypeDto dto = null;
+                if (string.IsNullOrWhiteSpace(nameTextBox.Text))
+                {
+                    MessageBox.Show("Введите название типа оборудования.");
+                    return null;
+                }
+
                 try
                 {
-                    dto = new EquipmentTypeDto
+                    return new EquipmentTypeDto
                     {
-                        Name = nameTextBox.Text
+                        Name = nameTextBox.Text.Trim()
                     };
-                    
                 }
-                catch (Exception ex) { MessageBox.Show(ex.Message); }
-                return dto;
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при создании типа оборудования: " + ex.Message);
+                    return null;
+                }
             }
         }
 
         public EquipmentTypeAddForm()
         {
             InitializeComponent();
+        }
+
+        public EquipmentTypeAddForm(EquipmentTypeDto dto)
+        {
+            InitializeComponent();
+            nameTextBox.Text = dto.Name;
+        }
+
+        private void EquipmentTypeAddForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DialogResult == DialogResult.OK && EquipmentType == null)
+            {
+                MessageBox.Show("Заполните все поля.");
+                e.Cancel = true;
+            }
         }
     }
 }

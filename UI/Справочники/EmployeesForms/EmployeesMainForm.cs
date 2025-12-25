@@ -35,10 +35,23 @@ namespace UI.Справочники
             var addForm = new EmployeesAddForm();
             if (addForm.ShowDialog() == DialogResult.OK)
             {
-                Employee employee = Mapper.EmployeeFromDto(addForm.Employee);
-                service.Add(employee);
+                try
+                {
+                    Employee employee = Mapper.EmployeeFromDto(addForm.Employee);
+                    if (!service.TryValidate(employee))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+
+                    service.Add(employee);
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка валидации.");
+                }
             }
-            RefreshData();
         }
 
         private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -49,14 +62,28 @@ namespace UI.Справочники
             var emp = service.GetById<Employee>(selectedItem.Id);
             if (emp == null) return;
 
-            var updateForm = new EmployeesUpdateForm(Mapper.EmployeeFromEntity(emp));
+            var updateForm = new EmployeesAddForm(Mapper.EmployeeFromEntity(emp));
             if (updateForm.ShowDialog() == DialogResult.OK)
             {
-                emp.FullName = updateForm.Employee.FullName;
-                emp.Position = updateForm.Employee.Position;
-                emp.DepartmentId = updateForm.Employee.DepartmentId;
-                service.Update(emp);
-                RefreshData();
+                try
+                {
+                    emp.FullName = updateForm.Employee.FullName;
+                    emp.Position = updateForm.Employee.Position;
+                    emp.DepartmentId = updateForm.Employee.DepartmentId;
+
+                    if (!service.TryValidate(emp))
+                    {
+                        MessageBox.Show("Ошибка валидации.");
+                        return;
+                    }
+
+                    service.Update(emp);
+                    RefreshData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка валидации.");
+                }
             }
         }
 
